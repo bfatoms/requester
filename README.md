@@ -3,11 +3,6 @@
 composer require bfatoms/requester
 ```
 
-# Publish Config
-```
-php artisan vendor:publish bfatoms/requester
-```
-
 # Usage
 This package is heavily patterned to the laravel http test methods..
 ```

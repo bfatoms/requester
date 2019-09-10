@@ -10,6 +10,7 @@ class Requester
 {
 
     protected $data = [];
+    protected $response = [];
 
     public function __call($method,$arguments)
     {
@@ -48,9 +49,10 @@ class Requester
         $this->setDefaultHeaders($headers, $json);
         $this->setDataByHeaders($type, $options, $json);
         try{
-            $response = $client->request($type, $url, $this->data);
-            return $json === true ? response()->json(json_decode($response->getBody())) : 
-            $response->getBody();
+            $this->response = $client->request($type, $url, $this->data);
+
+            return $json === true ? response()->json(json_decode($this->response->getBody())) : 
+                $this->response->getBody()->getContents();
         }
         catch(ClientException $ex) {
             return $json==true ? response()->json([
@@ -65,6 +67,11 @@ class Requester
                 "message" => $ex->getMessage()
             ], $ex->getCode()): $ex->getMessage();
         }
+    }
+
+    public function getHeader($key="Location")
+    {
+        return $this->response->getHeader($key);
     }
 
 }
