@@ -45,6 +45,7 @@ class Requester
 
     public function json($type, $url, $options=[], $headers=[], $json = true)
     {
+        $this->data = [];
         $client = new Client();
         $this->setDefaultHeaders($headers, $json);
         $this->setDataByHeaders($type, $options, $json);
